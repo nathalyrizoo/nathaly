@@ -108,7 +108,7 @@ public class UserDetailsActivity extends AppCompatActivity implements OnMapReady
             mapView.getMapAsync(this);
 
             // Obtener las coordenadas de la dirección
-            if (address != null && !address.isEmpty()) {
+            if (address != null && !address.isEmpty() && !address.equals("No disponible")) {
                 fetchCoordinates(address);
             } else {
                 Toast.makeText(this, "La dirección no está disponible o es inválida", Toast.LENGTH_SHORT).show();
@@ -188,7 +188,6 @@ public class UserDetailsActivity extends AppCompatActivity implements OnMapReady
                         try {
                             JsonObject jsonObject = new Gson().fromJson(responseData, JsonObject.class);
 
-                            // Verificar si la lista de resultados contiene elementos
                             if (jsonObject.has("results") && jsonObject.getAsJsonArray("results").size() > 0) {
                                 JsonObject location = jsonObject.getAsJsonArray("results")
                                         .get(0).getAsJsonObject()

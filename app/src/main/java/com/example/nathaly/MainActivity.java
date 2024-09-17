@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, UserDetailsActivity.class);
                 intent.putExtra("name", user.getName());
                 intent.putExtra("email", user.getEmail());
-                intent.putExtra("address", user.getAddress()); // Verifica que este dato esté disponible y válido
+                intent.putExtra("address", user.getFullAddress()); // Pasar dirección completa
                 intent.putExtra("phone", user.getPhone());
                 intent.putExtra("cell", user.getCell());
                 intent.putExtra("country", user.getCountry());
@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
         private String email;
         private Location location;
         private Picture picture;
-        private String address;
         private String phone;
         private String cell;
 
@@ -165,11 +164,6 @@ public class MainActivity extends AppCompatActivity {
             return picture.large;
         }
 
-        // Métodos adicionales para obtener dirección, teléfono y celular
-        public String getAddress() {
-            return address != null ? address : "No disponible";
-        }
-
         public String getPhone() {
             return phone != null ? phone : "No disponible";
         }
@@ -178,13 +172,31 @@ public class MainActivity extends AppCompatActivity {
             return cell != null ? cell : "No disponible";
         }
 
+        // Método para obtener la dirección completa
+        public String getFullAddress() {
+            if (location != null && location.street != null) {
+                String address = location.street.number + " " + location.street.name + ", " +
+                        location.city + ", " + location.state + ", " + location.country;
+                return address;
+            }
+            return "No disponible";
+        }
+
         class Name {
             String first;
             String last;
         }
 
         class Location {
+            Street street;
+            String city;
+            String state;
             String country;
+
+            class Street {
+                int number;
+                String name;
+            }
         }
 
         class Picture {

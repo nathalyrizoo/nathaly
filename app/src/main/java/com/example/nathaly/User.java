@@ -4,10 +4,10 @@ public class User {
     private String email;
     private Location location;
     private Picture picture;
-    private String address; // Asegúrate de que esta variable exista
     private String phone;
     private String cell;
 
+    // Métodos para obtener los datos de nombre, email, país y foto
     public String getName() {
         return name.first + " " + name.last;
     }
@@ -24,17 +24,22 @@ public class User {
         return picture.large;
     }
 
-    // Método para obtener la dirección
-    public String getAddress() {
-        return location.street.name + " " + location.street.number + ", " + location.city + ", " + location.state + ", " + location.postcode;
-    }
-
     public String getPhone() {
         return phone != null ? phone : "No disponible";
     }
 
     public String getCell() {
         return cell != null ? cell : "No disponible";
+    }
+
+    // Método para obtener la dirección completa
+    public String getFullAddress() {
+        if (location != null && location.street != null) {
+            String address = location.street.number + " " + location.street.name + ", " +
+                    location.city + ", " + location.state + ", " + location.country;
+            return address;
+        }
+        return "No disponible";
     }
 
     class Name {
@@ -47,11 +52,10 @@ public class User {
         String city;
         String state;
         String country;
-        String postcode;
 
         class Street {
+            int number;
             String name;
-            String number;
         }
     }
 
